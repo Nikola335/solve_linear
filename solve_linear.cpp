@@ -2,19 +2,34 @@
 #include <cstdlib>
 using namespace std;
 
+// Особое значение "бесконечное количество корней".
+const int INFINITE_ROOTS = -1;
+
 // Решаем уравнение ax + b = 0.
-double solve_linear(double a, double b)
+// Функция возвращает "количество корней".
+// Корень записывает по ссылке root.
+int solve_linear(double a, double b, double& root)
 {
-    // Неужели так просто?
-    return -b / a;
+    if (a == 0)
+        return b == 0 ? INFINITE_ROOTS : 0;
+    root = -b / a;
+    return 1;
 }
 
 int main()
 {
     cout << "Solving ax + b = 0, enter a, b:\n";
     cout.precision(16);
-    for (double a, b; cin >> a >> b;)
-        cout << "x == " << solve_linear(a, b) << endl;
+    for (double a, b, x; cin >> a >> b;)
+    {
+        const int roots = solve_linear(a, b, x);
+        if (roots == 0)
+            cout << "no roots\n";
+        else if (roots == INFINITE_ROOTS)
+            cout << "any number is a root\n";
+        else // один корень, записан в x
+            cout << "x == " << x << endl;
+    }
 
     return EXIT_SUCCESS;
 }
